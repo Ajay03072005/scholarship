@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PMSSS Full Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f9fafc;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      color: white;
+      padding: 1.5em;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    nav {
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: #007bff;
+      left: 0;
+      bottom: -4px;
+      transition: 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    main {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    section {
+      display: none;
+      width: 100%;
+      max-width: 600px;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.05);
+    }
+    section.active {
+      display: block;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      color: #007bff;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    footer {
+      text-align: center;
+      background: #f1f1f1;
+      padding: 1rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+<header>PMSSS Scholarship Portal</header>
+
+<nav>
+  <a href="#" onclick="showSection('home')">Home</a>
+  <a href="#" onclick="showSection('apply')">Apply</a>
+  <a href="#" onclick="showSection('status')">Status</a>
+  <a href="#" onclick="showSection('login')">Login</a>
+  <a href="#" onclick="showSection('register')">Register</a>
+</nav>
+
+<main>
+  <section id="home" class="active">
+    <h2>Welcome to PMSSS Portal</h2>
+    <p>This portal enables students to register, apply for scholarships, check their application status, and more.</p>
+  </section>
+
+  <section id="apply">
+    <h2>Apply for Scholarship</h2>
+    <form id="applyForm">
+      <h3>Personal Details</h3>
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="number" id="age" placeholder="Age" required>
+      <input type="date" id="dob" placeholder="Date of Birth" required>
+
+      <h3>Educational Details</h3>
+      <input type="text" id="education" placeholder="Highest Qualification" required>
+      <input type="text" id="institution" placeholder="Institution Name" required>
+
+      <h3>Family & Income</h3>
+      <input type="text" id="family_details" placeholder="Father/Mother/Guardian Name" required>
+      <input type="number" id="income" placeholder="Annual Family Income" required>
+
+      <h3>Bank Details</h3>
+      <input type="text" id="bank_account" placeholder="Bank Account Number" required>
+      <input type="text" id="ifsc" placeholder="IFSC Code" required>
+
+      <h3>Certificates Upload</h3>
+      <label>Community Certificate</label>
+      <input type="file" id="community_cert" required>
+
+      <label>Income Certificate</label>
+      <input type="file" id="income_cert" required>
+
+      <label>Mark Sheet</label>
+      <input type="file" id="marksheet" required>
+
+      <label>Other Documents</label>
+      <input type="file" id="other_doc">
+
+      <button type="submit">Submit Application</button>
+    </form>
+  </section>
+
+  <section id="status">
+    <h2>Check Application Status</h2>
+    <input type="email" id="statusEmail" placeholder="Enter your email">
+    <button onclick="checkStatus()">Check Status</button>
+    <div id="statusResult"></div>
+  </section>
+
+  <section id="login">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+  </section>
+
+  <section id="register">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="email" id="regEmail" placeholder="Email" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <button type="submit">Register</button>
+    </form>
+  </section>
+</main>
+
+<footer>&copy; 2025 PMSSS Portal. All rights reserved.</footer>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const res = await fetch("http://localhost/PMMMS-backend/auth/login.php", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ email: loginEmail.value, password: loginPassword.value })
+    });
+    const json = await res.json();
+    if(json.status==="success"){
+      localStorage.setItem("student_id", json.student_id);
+      alert("Logged in!");
+    } else {
+      alert("Login failed: "+json.message);
+    }
+  });
+
+  document.getElementById("registerForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const res = await fetch("http://localhost/PMMMS-backend/auth/register.php", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        name: regName.value,
+        email: regEmail.value,
+        password: regPassword.value
+      })
+    });
+    const json = await res.json();
+    alert(json.message);
+  });
+
+  document.getElementById("applyForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const form = new FormData();
+    form.append("student_id", localStorage.getItem("student_id"));
+    form.append("name", name.value);
+    form.append("age", age.value);
+    form.append("dob", dob.value);
+    form.append("education", education.value);
+    form.append("institution", institution.value);
+    form.append("family_details", family_details.value);
+    form.append("income", income.value);
+    form.append("bank_account", bank_account.value);
+    form.append("ifsc", ifsc.value);
+    form.append("community_cert", community_cert.files[0]);
+    form.append("income_cert", income_cert.files[0]);
+    form.append("marksheet", marksheet.files[0]);
+    if(other_doc.files.length > 0) form.append("other_doc", other_doc.files[0]);
+
+    const res = await fetch("http://localhost/PMMMS-backend/application/submit.php", { method: "POST", body: form });
+    const json = await res.json();
+    alert(json.message);
+  });
+
+  async function checkStatus() {
+    const res = await fetch("http://localhost/PMMMS-backend/status/check.php?email="+statusEmail.value);
+    const data = await res.json();
+    document.getElementById("statusResult").innerText =
+      data.status ? `Status: ${data.status}` : "No application found.";
+  }
+</script>
+</body>
+</html>
