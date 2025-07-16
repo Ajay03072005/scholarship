@@ -1,0 +1,88 @@
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+  background-color: #1e1e2f;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.nav-links li a:hover {
+  background-color: #3e3e5e;
+}
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .navbar {
+    justify-content: center;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+} 
+
+.hero {
+  height: 400px;
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position:sticky;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #ff6b6b;
+  color: white;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #ff4b4b;
+}
